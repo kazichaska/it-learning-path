@@ -2,7 +2,9 @@
 
 My journey to becoming a **Cloud & DevOps engineer**: structured notes, hands-on labs, runnable scripts and real infrastructure code, from computer basics to Kubernetes.
 
-![CI](https://github.com/kazichaska/it-learning-path/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/kazichaska/it-learning-path/actions/workflows/ci.yml/badge.svg)](https://github.com/kazichaska/it-learning-path/actions/workflows/ci.yml)
+
+**Who this is for:** career-changers, IT support folks and students who want a hands-on, start-to-finish path into Cloud & DevOps, plus anyone looking for working examples of Bash, Python, Docker, Terraform and Kubernetes.
 
 ## 📚 Roadmap
 

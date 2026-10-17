@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app
+  namespace: demo
+  labels:
+    app: example-app
+spec:
+  replicas: 3
+  # Which pods this Deployment manages. Must match the pod template labels below.
+  selector:
+    matchLabels:
+      app: example-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0   # never drop below 3 ready pods during a deploy
+      maxSurge: 1         # add at most 1 extra pod at a time
+  template:
+    metadata:
+      labels:
+        app: example-app
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: app
+          image: example-app:1.0
+          # With kind, the image is loaded locally: don't try to pull it from a registry.
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: example-app-config
+          # Readiness: only send traffic once this succeeds.
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          # Liveness: restart the container if this keeps failing.
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          # Requests: what the scheduler reserves. Limits: the hard ceiling.
+          resources:
+            requests:
+              cpu: 50m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]

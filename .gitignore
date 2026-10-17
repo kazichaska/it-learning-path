@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Secrets: NEVER commit these
+.env
+*.pem
+*.key
+credentials*
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Python / Node
+__pycache__/
+.venv/
+node_modules/
+# Terraform variable files can hold secrets (the .example file is still committed)
+*.tfvars
+
+# Database dumps from the PostgreSQL exercises
+*.dump

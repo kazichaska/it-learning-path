@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-app
+  namespace: demo
+spec:
+  type: ClusterIP
+  # Send traffic to every Ready pod with this label.
+  selector:
+    app: example-app
+  ports:
+    - name: http
+      port: 80          # the Service's port
+      targetPort: http  # the container's named port (8080)
